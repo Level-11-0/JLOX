@@ -47,14 +47,27 @@ private void scanToken(){
         case '<' -> addToken(match('=') ? LESS_EQUAL : BANG);
         case '>' -> addToken(match('=') ? GREATER_EQUAL : EQUAL);
 
-        case '/' -> if(match('/')){
-            while(peak() != '\n' && !isAtEnd()) advance();
-        } else{
+        case '/' -> {
+            if(match('/')){
+                while(peak() != '\n' && !isAtEnd()) advance();
+            } else {
             addToken(SLASH);
+            }
         }
+
+        case ' ' -> {}
+        case '\r' -> {} // carriage return, ignore
+        case '\t' -> {} // tab
+
+        case '\n' -> line++; //newline
 
         default -> Lox.error(line, "Unexpected character.");
     }
+}
+
+private char peak(){
+    if (isAtEnd()) return '\0';
+    return source.charAt(current);
 }
 
 private boolean match(char expected){
