@@ -1,0 +1,3 @@
+#ignore the Mac DS store nonsense
+*.DS_Store
+
